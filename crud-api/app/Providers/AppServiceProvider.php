@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -16,9 +17,12 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap any application services.
+     * define Gate to authorize login: admin
      */
     public function boot(): void
     {
-        //
+        Gate::define('access-admin', function ($user) {
+            return $user->isAdmin;
+        });
     }
 }

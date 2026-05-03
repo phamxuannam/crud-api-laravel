@@ -10,7 +10,8 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $getAll = Product::latest()->get();
         return response()->json([
             'success' => true,
@@ -19,9 +20,10 @@ class ProductController extends Controller
         ], 200);
     }
 
-    public function show($id){
+    public function show($id)
+    {
         $product = Product::find($id);
-        if(!$product){
+        if (!$product) {
             return response()->json([
                 'success' => false,
                 'message' => 'Product Khong Ton Tai.',
@@ -36,16 +38,17 @@ class ProductController extends Controller
         ], 200);
     }
 
-    public function store(ProductRequest $request){
+    public function store(ProductRequest $request)
+    {
         $user = User::find($request->userId);
-        if(!$user){
+        if (!$user) {
             return response()->json([
                 'success' => false,
                 'message' => 'User Khong Ton Tai.',
                 'data'    => null
             ], 404);
         }
-        
+
         $data = [
             'name'      => $request->name,
             'price'     => $request->price,
@@ -56,15 +59,16 @@ class ProductController extends Controller
         $product = Product::create($data);
 
         return response()->json([
-                'success' => true,
-                'message' => 'Tao Product Thanh Cong.',
-                'data'    => new ProductResource($product)
-            ], 201);
+            'success' => true,
+            'message' => 'Tao Product Thanh Cong.',
+            'data'    => new ProductResource($product)
+        ], 201);
     }
 
-    public function update($id, ProductRequest $request){
+    public function update($id, ProductRequest $request)
+    {
         $product = Product::find($id);
-        if(!$product){
+        if (!$product) {
             return response()->json([
                 'success' => false,
                 'message' => 'Product Khong Ton Tai.',
@@ -75,10 +79,10 @@ class ProductController extends Controller
             'name'     => $request->name,
             'price'    => $request->price,
             'quantity' => $request->quantity,
-            'userId'   => $request->userId 
+            'userId'   => $request->userId
         ];
         $product->update($data);
-        
+
         return response()->json([
             'success' => true,
             'message' => 'Cap Nhat Product Thanh Cong.',
@@ -86,9 +90,10 @@ class ProductController extends Controller
         ], 200);
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $product = Product::find($id);
-        if(!$product){
+        if (!$product) {
             return response()->json([
                 'success' => false,
                 'message' => 'Product Khong Ton Tai.',
@@ -96,11 +101,10 @@ class ProductController extends Controller
             ], 404);
         }
         $product->delete();
-         return response()->json([
+        return response()->json([
             'success' => true,
             'message' => 'Xoa Product Thanh Cong.',
             'data'    => null
         ], 200);
-
     }
 }
