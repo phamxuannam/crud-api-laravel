@@ -17,7 +17,8 @@
             <td> 
                 <a href="{{ route('users.edit',$user) }}">Edit</a>    
 
-                <form action="{{ route('users.destroy',$user) }}" method ="POST" id="f-delete">
+                <form action="{{ route('users.destroy',$user) }}" method ="POST" id="f-delete"
+                onsubmit="return confirm('Bạn chắc chắn muốn xóa không?')">
                     @csrf
                     @method('Delete')
                     <button>Delete</button>    

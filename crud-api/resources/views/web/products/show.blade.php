@@ -14,14 +14,15 @@
         <td> {{$product->created_at}} </td>
         <td> {{$product->updated_at}} </td>
         <td> 
-                <a href="{{ route('products.edit',$product)}}">Edit</a>    
+            <a href="{{ route('products.edit',$product)}}">Edit</a>    
 
-                <form action="{{ route('products.destroy',$product)}}" method ="POST" id="f-delete">
-                    @csrf
-                    @method('Delete')
-                    <button>Delete</button>    
-                </form>
-            </td>
+            <form action="{{ route('products.destroy',$product)}}" method ="POST" id="f-delete"
+            onsubmit="return confirm('Bạn chắc chắn muốn xóa không?')">
+                @csrf
+                @method('Delete')
+                <button>Delete</button>    
+            </form>
+        </td>
     </tr>
 </table>    
 

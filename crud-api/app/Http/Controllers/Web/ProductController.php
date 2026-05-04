@@ -8,6 +8,7 @@ use App\Models\Product;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -22,7 +23,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::latest()->get();
+        $products = Product::latest()->paginate(2);
         return view('web.products.index', compact('products'));
     }
 
@@ -39,7 +40,13 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        Product::create($request->all());
+        $data = ([
+            'name'     => $request->name,
+            'price'    => $request->price,
+            'quantity' => $request->quantity,
+            'userId'   => Auth::id()
+        ]);
+        Product::create($data);
         return redirect()->route('products.index');
     }
 
@@ -82,6 +89,8 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
-        return redirect()->route('products.index');
+        return response()->json([
+            'message' => 'successed.'
+        ]);
     }
 }
