@@ -21,9 +21,18 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $products = Product::latest()->paginate(2);
+        
+        if ($request->ajax()) {
+        //  return view('web.products._table', compact('products'))->render();
+            
+            return response()->json([
+                'rows' => view('web.products._rows', compact('products'))->render(),
+                'pagination' => $products->links()->toHtml()
+            ]);
+        }
         return view('web.products.index', compact('products'));
     }
 
@@ -46,8 +55,15 @@ class ProductController extends Controller
             'quantity' => $request->quantity,
             'userId'   => Auth::id()
         ]);
-        Product::create($data);
-        return redirect()->route('products.index');
+        $product = Product::create($data);
+    //    return redirect()->route('products.index');
+
+        return response()->json([
+            'message' => 'successed',
+            'product' => $product,
+            'delete_url' => route('products.destroy', $product->id),
+            'edit_url'   => route('products.edit', $product->id)
+        ]);
     }
 
     /**
@@ -86,11 +102,15 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(Product $product, Request $request)
     {
         $product->delete();
-        return response()->json([
-            'message' => 'successed.'
-        ]);
+        
+        if($request->ajax()){
+            return response()->json([
+                'message' => 'successed.'
+            ]);
+        }
+        return redirect(route('products.index'));
     }
 }

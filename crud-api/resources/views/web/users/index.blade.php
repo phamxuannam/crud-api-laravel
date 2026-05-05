@@ -1,75 +1,122 @@
-<h1>Danh Sach User</h1>
-<table border="1" class="table table-bordered"
-    <tr>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        .f-create {
+            width: 40%;
+            max-width: 100%;
+        }
+
+        .f-create input {
+            padding: 5px 10px;
+            margin-bottom: 5px;
+        }
+
+        .table-bordered {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .table-bordered tr {
+            text-align: center;
+        }
+
+        .table-bordered tr th {
+            background-color: rgb(0, 195, 255);
+            padding: 5px;
+            font-weight: bold;
+            font-size: 25px;
+        }
+
+        .table-bordered tr td {
+            padding: 3px;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .table-bordered tr td a {
+            text-decoration: none;
+            color: black;
+        }
+
+        a:hover {
+            color: rgb(0, 68, 255);
+            pointer-events: painted;
+        }
+    </style>
+
+    <title>Document</title>
+</head>
+
+<body>
+
+    <h1>Danh Sach User</h1>
+    <table border="1" class="table table-bordered" <tr>
         <th>Name</th>
         <th>Email</th>
         <th>Age</th>
         <th>Time Created</th>
         <th>Time Updated</th>
         <th>Action</th>
-    </tr>
-    @foreach ($users as $user)
-        <tr>
-            <td> {{$user->name}} </td>
-            <td> {{$user->email}} </td>
-            <td> {{$user->age}} </td>
-            <td> {{$user->created_at}} </td>
-            <td> {{$user->updated_at}} </td>
-            <td> 
-                <a href="{{ route('users.edit',$user) }}">Edit</a>    
-
-                <form action="{{ route('users.destroy',$user) }}" method ="POST" id="f-delete" 
-                onsubmit="return confirm('Bạn chắc chắn muốn xóa không?')">
-                    @csrf
-                    @method('Delete')
-                    <button>Delete</button>    
-                </form>
-            </td>
         </tr>
-    @endforeach
-</table>   
- <div class="mt-4 d-flex justify-content-center">
-    {{ $users->links() }}
-</div>
+        @foreach ($users as $user)
+            <tr id="row-{{ $user->id }}">
+                <td> {{ $user->name }} </td>
+                <td> {{ $user->email }} </td>
+                <td> {{ $user->age }} </td>
+                <td> {{ $user->created_at }} </td>
+                <td> {{ $user->updated_at }} </td>
+                <td>
+                    <a href="{{ route('users.edit', $user) }}" class="btn btn-info btn-sm">Edit</a>
 
-<style>
-    .f-create {
-        width: 40%;
-        max-width: 100%;
-    }
-    .f-create input{
-        padding: 5px 10px;
-        margin-bottom: 5px;
-    }
+                    <button class="btn btn-danger btn-sm btn-delete" data-id="{{ $user->id }}"
+                        data-url=" {{ route('users.destroy', $user) }}"> Delete </button>
+                    {{-- <form action="{{ route('users.destroy',$user) }}" method ="POST" id="f-delete" 
+                    onsubmit="return confirm('Bạn chắc chắn muốn xóa không?')">
+                        @csrf
+                        @method('Delete')
+                        <button>Delete</button>    
+                    </form>  --}}
+                </td>
+            </tr>
+        @endforeach
+    </table>
+    <div class="mt-4 d-flex justify-content-center">
+        {{ $users->links() }}
+    </div>
 
-    .table-bordered {
-        margin-top: 20px; 
-        width: 100%;
-    }
-    .table-bordered tr {
-        text-align: center;
-    }
-    .table-bordered tr th {
-        background-color: rgb(0, 195, 255);
-        padding: 5px;
-        font-weight: bold;
-        font-size: 25px;
-    }
-    .table-bordered tr td {
-        padding: 3px;
-        font-weight: bold;
-        font-size: 20px;
-    }
-    .table-bordered tr td a{
-        font-size: 20px;
-        text-decoration: none;
-        margin-top: 5px; 
-        color: black;
-    }
-    a:hover{
-        color: rgb(0, 119, 255);
-        pointer-events: painted;
-    }
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
 
-</style>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        $(document).on('click', '.btn-delete', function() {
+            if (!confirm("Bạn có chắc muốn xóa không?")) return;
+            let id = $(this).data('id');
+            let url = $(this).data('url');
+            $.ajax({
+                url: url,
+                type: 'DELETE',
+                success: function(res) {
+                    alert(res.message);
+                    $('#row-' + id).remove();
+                },
+                error: function(err) {
+                    console.log(err.responseText);
+                    alert(err.status);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

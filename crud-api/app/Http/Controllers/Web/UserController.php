@@ -79,9 +79,17 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(User $user, Request $request)
     {
         $user->delete();
-        return redirect()->route('users.index', $user);
+        // return response()->json([
+        //     'message' => 'successed.'
+        // ]); 
+        if($request->ajax()){
+            return response()->json([
+                'message'=>'successed.'
+            ]);
+        }
+        return redirect()->route('users.index');
     }
 }
