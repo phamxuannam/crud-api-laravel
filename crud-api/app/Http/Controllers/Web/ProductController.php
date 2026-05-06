@@ -24,10 +24,10 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $products = Product::latest()->get();
-        
+
         // if ($request->ajax()) {
         // //  return view('web.products._table', compact('products'))->render();
-            
+
         //     return response()->json([
         //         'rows' => view('web.products._rows', compact('products'))->render(),
         //         'pagination' => $products->links()->toHtml()
@@ -39,7 +39,7 @@ class ProductController extends Controller
     public function fetch()
     {
         $products = Product::latest()->get();
-        
+
         return view('web.products.products-data', compact('products'))->render();
     }
 
@@ -65,10 +65,10 @@ class ProductController extends Controller
             'userId'   => Auth::id()
         ]);
         $product = Product::create($data);
-    //    return redirect()->route('products.index');
+        //    return redirect()->route('products.index');
 
         return response()->json([
-            'message' => 'successed',
+            'message' => 'create successed',
             'product' => $product,
             'delete_url' => route('products.destroy', $product->id),
             'edit_url'   => route('products.edit', $product->id)
@@ -94,6 +94,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    //
     public function update(ProductRequest $request, Product $product)
     {
 
@@ -108,7 +109,8 @@ class ProductController extends Controller
         // return redirect()->route('products.index', $product);
 
         return response()->json([
-            'message' => 'success'
+            'message' => 'update successed.',
+            'data'    => $product
         ]);
     }
 
@@ -118,8 +120,8 @@ class ProductController extends Controller
     public function destroy(Product $product, Request $request)
     {
         $product->delete();
-        
-        if($request->ajax()){
+
+        if ($request->ajax()) {
             return response()->json([
                 'message' => 'successed.'
             ]);

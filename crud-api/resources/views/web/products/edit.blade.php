@@ -1,4 +1,4 @@
-{{-- <h1>Chinh Sua Product</h1>
+ {{-- <h1>Chinh Sua Product</h1>
 
 <form action=" {{ route('products.update', $product)}}" method="POST">
     @csrf
@@ -23,18 +23,8 @@
     <input type="hidden" name="userId" value="{{old('userId',Auth::id())}}">
     <button type="submit">Update</button>
 
-</form>
+</form>  --}}
 
-<style>
-    form {
-        width: 40%;
-        max-width: 100%;
-    }
-    form input{
-        padding: 5px 10px;
-        margin-bottom: 5px;
-    }
-</style> --}}
 
 
 <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -44,8 +34,10 @@
                 <h1 class="modal-title fs-5" id="editModalLabel">Update Product</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="editProduct" enctype="multipart/form-data">
+            <form id="editProduct" enctype="multipart/form-data" ">
                 @csrf
+             
+
                 <input type="hidden" name="id" id="edit_id">
 
                 <div class="modal-body">
@@ -59,14 +51,14 @@
 
                     <div class="mb-3">
                         <label for="message-text" class="col-form-label">Price:</label>
-                        <input type="number" name="edit_price" id="edit_price" value="{{ old('price') }}"
+                        <input type="number" name="price" id="edit_price" value="{{ old('price') }}"
                             class="form-control">
                         <span class="text-danger error-text price_error"></span>
                     </div>
 
                     <div class="mb-3">
                         <label for="message-text" class="col-form-label">Quantity:</label>
-                        <input type="number" name="edit_quantity" id="edit_quantity" value="{{ old('quantity') }}"
+                        <input type="number" name="quantity" id="edit_quantity" value="{{ old('quantity') }}"
                             class="form-control">
                         <span class="text-danger error-text quantity_error"></span>
                     </div>

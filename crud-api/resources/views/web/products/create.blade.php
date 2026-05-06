@@ -1,5 +1,3 @@
-{{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
-    data-bs-whatever="@mdo">Add Product</button> --}}
 
 <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
     <div class="modal-dialog">
