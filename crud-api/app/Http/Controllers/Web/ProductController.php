@@ -23,18 +23,27 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = Product::latest()->paginate(2);
+        $products = Product::latest()->get();
         
-        if ($request->ajax()) {
-        //  return view('web.products._table', compact('products'))->render();
+        // if ($request->ajax()) {
+        // //  return view('web.products._table', compact('products'))->render();
             
-            return response()->json([
-                'rows' => view('web.products._rows', compact('products'))->render(),
-                'pagination' => $products->links()->toHtml()
-            ]);
-        }
+        //     return response()->json([
+        //         'rows' => view('web.products._rows', compact('products'))->render(),
+        //         'pagination' => $products->links()->toHtml()
+        //     ]);
+        // }
         return view('web.products.index', compact('products'));
     }
+
+    public function fetch()
+    {
+        $products = Product::latest()->get();
+        
+        return view('web.products.products-data', compact('products'))->render();
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -96,7 +105,11 @@ class ProductController extends Controller
         ]);
         $product->update($data);
 
-        return redirect()->route('products.index', $product);
+        // return redirect()->route('products.index', $product);
+
+        return response()->json([
+            'message' => 'success'
+        ]);
     }
 
     /**

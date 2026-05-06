@@ -20,6 +20,7 @@ Route::middleware('auth')->group(function () {
 
 
     Route::resource('products', ProductController::class);
+    Route::get('/fetch', [ProductController::class, 'fetch'])->name('products.fetch');
     //index: /products
     //show: /products/{id}
     //edit: /products/{id}/edit
