@@ -23,7 +23,7 @@ class ProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'     => ['required','min:5'],
+            'name'     => ['required','max:50','unique:products,name'],
             'price'    => ['required','numeric','min:1'],
             'quantity' => ['required','numeric','min:0'],
             'userId'   => ['required', 'exists:users,id'] 
@@ -33,7 +33,8 @@ class ProductRequest extends FormRequest
     public function messages(){
         return [
             'name.required'     => 'Tên bắt buộc nhập.',
-            'name.min'          => 'Tên ít nhấ phải 5 ký tự.',
+            'name.max'          => 'Tên nhiều nhất là 50 ký tự.',
+            'name.unique'       => 'Tên đã tồn tại',
             'price.required'    => 'Giá bắt buộc nhập.',
             'price.numeric'     => 'Giá phải là số',
             'price.min'         => 'Giá >= 1.',

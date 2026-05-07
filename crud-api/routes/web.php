@@ -20,12 +20,14 @@ Route::middleware('auth')->group(function () {
 
 
     Route::resource('products', ProductController::class);
+    Route::get('products/fetch', [ProductController::class, 'fetch'])->name('products.fetch');
     //index: /products
     //show: /products/{id}
     //edit: /products/{id}/edit
     //create: /products/create
 
-    Route::resource('users', UserController::class)->except('store', 'create');
+    Route::resource('users', UserController::class); //->except('store', 'create')
+    Route::get('fetch', [UserController::class, 'fetch'])->name('users.fetch');
     // Route::get('/users', [UserController::class, 'index'])->name('users.index');
     // Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
     // Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');

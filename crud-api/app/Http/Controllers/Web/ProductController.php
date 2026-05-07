@@ -23,18 +23,27 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = Product::latest()->paginate(2);
-        
-        if ($request->ajax()) {
-        //  return view('web.products._table', compact('products'))->render();
-            
-            return response()->json([
-                'rows' => view('web.products._rows', compact('products'))->render(),
-                'pagination' => $products->links()->toHtml()
-            ]);
-        }
+        $products = Product::latest()->paginate(5);
+
+        // if ($request->ajax()) {
+        // //  return view('web.products._table', compact('products'))->render();
+
+        //     return response()->json([
+        //         'rows' => view('web.products._rows', compact('products'))->render(),
+        //         'pagination' => $products->links()->toHtml()
+        //     ]);
+        // }
         return view('web.products.index', compact('products'));
     }
+
+    public function fetch()
+    {
+        $products = Product::latest()->paginate(5);
+
+        return view('web.products.products-data', compact('products'))->render();
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -56,10 +65,10 @@ class ProductController extends Controller
             'userId'   => Auth::id()
         ]);
         $product = Product::create($data);
-    //    return redirect()->route('products.index');
+        //    return redirect()->route('products.index');
 
         return response()->json([
-            'message' => 'successed',
+            'message' => 'Tạo thành công.',
             'product' => $product,
             'delete_url' => route('products.destroy', $product->id),
             'edit_url'   => route('products.edit', $product->id)
@@ -85,6 +94,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    //
     public function update(ProductRequest $request, Product $product)
     {
 
@@ -96,7 +106,12 @@ class ProductController extends Controller
         ]);
         $product->update($data);
 
-        return redirect()->route('products.index', $product);
+        // return redirect()->route('products.index', $product);
+
+        return response()->json([
+            'message' => 'Cập nhật thành công.',
+            'data'    => $product
+        ]);
     }
 
     /**
@@ -105,12 +120,16 @@ class ProductController extends Controller
     public function destroy(Product $product, Request $request)
     {
         $product->delete();
-        
-        if($request->ajax()){
-            return response()->json([
-                'message' => 'successed.'
-            ]);
-        }
-        return redirect(route('products.index'));
+
+        // if ($request->ajax()) {
+        //     return response()->json([
+        //         'message' => 'deleted successfully.'
+        //     ]);
+        // }
+        // return redirect(route('products.index'));
+
+        return response() -> json([
+            'message' => 'Xóa thành công.'
+        ]);
     }
 }
