@@ -23,7 +23,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = Product::latest()->get();
+        $products = Product::latest()->paginate(5);
 
         // if ($request->ajax()) {
         // //  return view('web.products._table', compact('products'))->render();
@@ -38,7 +38,7 @@ class ProductController extends Controller
 
     public function fetch()
     {
-        $products = Product::latest()->get();
+        $products = Product::latest()->paginate(5);
 
         return view('web.products.products-data', compact('products'))->render();
     }
@@ -68,7 +68,7 @@ class ProductController extends Controller
         //    return redirect()->route('products.index');
 
         return response()->json([
-            'message' => 'create successed',
+            'message' => 'Tạo thành công.',
             'product' => $product,
             'delete_url' => route('products.destroy', $product->id),
             'edit_url'   => route('products.edit', $product->id)
@@ -109,7 +109,7 @@ class ProductController extends Controller
         // return redirect()->route('products.index', $product);
 
         return response()->json([
-            'message' => 'update successed.',
+            'message' => 'Cập nhật thành công.',
             'data'    => $product
         ]);
     }
@@ -121,11 +121,15 @@ class ProductController extends Controller
     {
         $product->delete();
 
-        if ($request->ajax()) {
-            return response()->json([
-                'message' => 'successed.'
-            ]);
-        }
-        return redirect(route('products.index'));
+        // if ($request->ajax()) {
+        //     return response()->json([
+        //         'message' => 'deleted successfully.'
+        //     ]);
+        // }
+        // return redirect(route('products.index'));
+
+        return response() -> json([
+            'message' => 'Xóa thành công.'
+        ]);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
-
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Password;
@@ -22,8 +22,14 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::latest()->paginate(2);
+        $users = User::latest()->paginate(3);
         return view('web.users.index', compact('users'));
+    }
+
+    public function fetch(){
+        $users = User::latest()->paginate(3);
+
+        return view('web.users.users-data', compact('users'))->render();
     }
 
     /**
@@ -34,7 +40,19 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {}
+    public function store(UserRequest $request) {
+        $data = [
+            'name'      => $request->name,
+            'email'     => $request->email,
+            'password'  => $request->password,
+            'age'       => $request->age
+        ];
+        $user = User::create($data);
+        return response()->json([
+            'message' => 'Tạo thành công',
+            'data'    => $user
+        ]);
+    }
 
     /**
      * Display the specified resource.
@@ -73,7 +91,12 @@ class UserController extends Controller
         ]);
         $user->update($data);
 
-        return redirect()->route('users.index', compact('user'));
+        // return redirect()->route('users.index', compact('user'));
+
+        return response()->json([
+            'message' => 'Cập nhật thành công',
+            'data'    => $user
+        ]);
     }
 
     /**
@@ -85,11 +108,14 @@ class UserController extends Controller
         // return response()->json([
         //     'message' => 'successed.'
         // ]); 
-        if($request->ajax()){
-            return response()->json([
-                'message'=>'successed.'
-            ]);
-        }
-        return redirect()->route('users.index');
+        // if($request->ajax()){
+        //     return response()->json([
+        //         'message'=>'successed.'
+        //     ]);
+        // }
+        // return redirect()->route('users.index');
+        return response()->json([
+            'message' => 'xóa thành công.'
+        ]);
     }
 }

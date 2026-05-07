@@ -1,121 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
+<div class="modal fade" id="showUserModal" tabindex="-1" aria-labelledby="showModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="editModalLabel">Infomation Account</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="showUser" enctype="multipart/form-data">
+                @csrf
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=\, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+                <div class="modal-body">
 
-    <style>
-        .f-create {
-            width: 40%;
-            max-width: 100%;
-        }
+                    <div class="mb-3">
+                        <label for="name" class="col-form-label">Name:</label>
+                        <input type="text" name="name" value="{{ old('name') }}" class="form-control"
+                            id="show_name" disabled>
+                        <span class="text-danger error-text name_error"></span>
+                    </div>
 
-        .f-create input {
-            padding: 5px 10px;
-            margin-bottom: 5px;
-        }
+                    <div class="mb-3">
+                        <label for="message-text" class="col-form-label">Email:</label>
+                        <input type="email" name="email" value="{{ old('email') }}" class="form-control"
+                            id="show_email" disabled>
+                        <span class="text-danger error-text email_error"></span>
+                    </div>
 
-        table {
-            margin-top: 20px;
-            width: 100%;
-        }
+                    <div class="mb-3">
+                        <label for="message-text" class="col-form-label">Password:</label>
+                        <input type="email" name="password" value="{{ old('password') }}" class="form-control"
+                            id="show_password" disabled>
+                        <span class="text-danger error-text email_error"></span>
+                    </div>
 
-        table tr {
-            text-align: center;
-        }
+                    <div class="mb-3">
+                        <label for="message-text" class="col-form-label">Age:</label>
+                        <input type="number" name="age" value="{{ old('age') }}" class="form-control"
+                            id="show_age" disabled>
+                        <span class="text-danger error-text age_error"></span>
+                    </div>
 
-        table tr th {
-            background-color: rgb(0, 195, 255);
-            padding: 5px;
-            font-weight: bold;
-            font-size: 25px;
-        }
+                    <div class="mb-3">
+                        <label for="message-text" class="col-form-label">isAdmin:</label>
+                        <input type="text" name="admin" value="{{ old('isAdmin') }}" class="form-control"
+                            id="show_admin" disabled>
+                        <span class="text-danger error-text password_error"></span>
+                    </div>
 
-        table tr td {
-            padding: 3px;
-            font-weight: bold;
-            font-size: 20px;
-        }
+                    <div class="mb-3">
+                        <label for="message-text" class="col-form-label">Created_at:</label>
+                        <input type="text" name="created_at" value="{{ old('created_at') }}" class="form-control"
+                            id="show_created" disabled>
+                        <span class="text-danger error-text password_error"></span>
+                    </div>
 
-        table tr td a {
-            text-decoration: none;
-            color: black;
-        }
+                </div>
 
-        a:hover {
-            color: rgb(0, 68, 255);
-            pointer-events: painted;
-        }
-    </style>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
 
-    <title>Document</title>
-</head>
-
-<body>
-
-    <table border="1" <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Age</th>
-        <th>Time Created</th>
-        <th>Time Updated</th>
-        <th>Action</th>
-        </tr>
-        <tr>
-            <td> {{ $user->name }} </td>
-            <td> {{ $user->email }} </td>
-            <td> {{ $user->age }} </td>
-            <td> {{ $user->created_at }} </td>
-            <td> {{ $user->updated_at }} </td>
-            <td>
-                <a class="btn btn-info btn-sm" href="{{ route('users.edit', $user) }}">Edit</a>
-
-                {{-- <button class="btn btn-danger btn-sm btn-delete" data-id="{{ $user->id }}"
-                    data-url="{{ route('users.destroy', $user) }}">Delete</button> --}}
-
-                <form action="{{ route('users.destroy', $user) }}" method ="POST" id="f-delete"
-                    onsubmit="return confirm('Bạn chắc chắn muốn xóa không?')">
-
-                    @csrf
-                    @method('Delete')
-                    <button>Delete</button>
-                </form>
-            </td>
-        </tr>
-    </table>
-
-</body>
-
-{{-- <script>
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-    $(document).on('click', '.btn-delete', function() {
-        if (!confirm("Bạn có chắc muốn xóa không?")) return;
-
-        let id = $(this).data('id');
-        let url = $(this).data('url');
-
-        $.ajax({
-            type: 'DELETE',
-            url: url,
-            success: function(res) {
-                alert(res.message);
-                $("#row-" + id);
-            },
-            error: function(err) {
-                console.log(err.responseText);
-                alert(error.status);
-            }
-        });
-    });
-</script> --}}
-
-</html>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,5 +1,4 @@
-
-<table border="1"
+{{-- <table border="1"
     <tr>
         <th>Name</th>
         <th>Price</th>
@@ -55,5 +54,4 @@
         color: rgb(0, 119, 255);
         pointer-events: painted;
     }
-</style>
-
+</style> --}}
