@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Web\ProfileController;
 use App\Http\Controllers\Web\ProductController;
 use App\Http\Controllers\Web\UserController;
 use Illuminate\Support\Facades\Route;
@@ -18,9 +18,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-
-    Route::resource('products', ProductController::class);
     Route::get('products/fetch', [ProductController::class, 'fetch'])->name('products.fetch');
+    Route::resource('products', ProductController::class);
     //index: /products
     //show: /products/{id}
     //edit: /products/{id}/edit
