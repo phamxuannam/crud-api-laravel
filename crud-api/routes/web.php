@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\PermissionController;
 use App\Http\Controllers\Web\ProfileController;
 use App\Http\Controllers\Web\ProductController;
 use App\Http\Controllers\Web\UserController;
@@ -32,6 +33,9 @@ Route::middleware('auth')->group(function () {
     // Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
     // Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
     // Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+
+    Route::resource('permissions', PermissionController::class);
+    
 });
 
 require __DIR__ . '/auth.php';
