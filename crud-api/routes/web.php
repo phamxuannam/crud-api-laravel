@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\FileController;
 use App\Http\Controllers\Web\PermissionController;
 use App\Http\Controllers\Web\ProfileController;
 use App\Http\Controllers\Web\ProductController;
@@ -35,6 +36,8 @@ Route::middleware('auth')->group(function () {
     // Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 
     Route::resource('permissions', PermissionController::class);
+
+    Route::resource('files', FileController::class);
     
 });
 
